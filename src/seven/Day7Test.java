@@ -22,4 +22,15 @@ public class Day7Test {
         Assert.assertEquals(123, test.getVariable("x"));
         Assert.assertEquals(456, test.getVariable("y"));
     }
+
+    @Test
+    public void testArrowAssignsAnd() {
+        Day7 test = new Day7(
+                "123 -> x\n" +
+                "456 -> y\n" +
+                "x AND y -> d");
+        Assert.assertEquals(123, test.getVariable("x"));
+        Assert.assertEquals(456, test.getVariable("y"));
+        Assert.assertEquals(72, test.getVariable("d"));
+    }
 }

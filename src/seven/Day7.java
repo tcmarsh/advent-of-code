@@ -1,11 +1,9 @@
 package seven;
 
-import org.junit.Assert;
-import org.junit.Test;
-import utility.StringUtility;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import utility.StringUtility;
 
 /**
  * Created by trevor on 12/29/15.

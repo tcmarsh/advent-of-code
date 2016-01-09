@@ -12,9 +12,15 @@ import java.util.Map;
 public class Day7 {
     private Map<String, Integer> variables = new HashMap<>();
 
-    public Day7(String assignment) {
-        String[] parts = assignment.split(" ");
-        variables.put(parts[2], Integer.parseInt(parts[0]));
+    public Day7(String assignments) {
+        assignVariables(assignments.split("\n"));
+    }
+
+    public void assignVariables(String[] assignments) {
+        for (String s: assignments) {
+            String[] parts = s.split(" ");
+            variables.put(parts[2], Integer.parseInt(parts[0]));
+        }
     }
 
     public int getVariable(String variableName) {

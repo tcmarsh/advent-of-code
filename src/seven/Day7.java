@@ -12,6 +12,16 @@ public class Day7 {
     private Map<String, Integer> variables = new HashMap<>();
 
     public Day7(String assignments) {
+        Map<String, String> assignmentStatements = parseAssignmentStatements(assignments);
+
+        for (String key: assignmentStatements.keySet()) {
+            if (!variables.containsKey(key)) {
+                initializeVariable(key, assignmentStatements);
+            }
+        }
+    }
+
+    private Map<String, String> parseAssignmentStatements(String assignments) {
         Map<String, String> assignmentStatements = new HashMap<>();
         for (String assignment: assignments.split("\n")) {
             String[] parts = assignment.split("->");
@@ -20,15 +30,10 @@ public class Day7 {
 
             assignmentStatements.put(key, statement);
         }
-
-        for (String key: assignmentStatements.keySet()) {
-            if (!variables.containsKey(key)) {
-                variables.put(key, getVariableValue(key, assignmentStatements));
-            }
-        }
+        return assignmentStatements;
     }
 
-    public int getVariableValue(String key, Map<String, String> assignmentStatements) {
+    public void initializeVariable(String key, Map<String, String> assignmentStatements) {
         if (!variables.containsKey(key)) {
             String statement = assignmentStatements.get(key);
             if (StringUtility.isInteger(statement)) {
@@ -39,12 +44,13 @@ public class Day7 {
 
                 int value = 0;
                 if (parts.length == 2) {
-                    value = ~getVariableValue(parts[1], assignmentStatements) ^ (0xFFFF << 16);
+                    initializeVariable(parts[1], assignmentStatements);
+                    value = ~variables.get(parts[1]) ^ (0xFFFF << 16);
                 }
                 else {
-                    variables.put(parts[0], getVariableValue(parts[0], assignmentStatements));
+                    initializeVariable(parts[0], assignmentStatements);
                     if (!StringUtility.isInteger(parts[2])) {
-                        variables.put(parts[2], getVariableValue(parts[2], assignmentStatements));
+                        initializeVariable(parts[2], assignmentStatements);
                     }
 
                     switch (parts[1]) {
@@ -71,8 +77,6 @@ public class Day7 {
                 variables.put(key, value);
             }
         }
-
-        return variables.get(key);
     }
 
     public void assignVariables(String[] assignments) {

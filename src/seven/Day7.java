@@ -44,6 +44,10 @@ public class Day7 {
                     case "lshift":
                         combined <<= Integer.parseInt(names[2]);
                         break;
+                    case "RSHIFT":
+                    case "rshift":
+                        combined >>= Integer.parseInt(names[2]);
+                        break;
                     default:
                         continue;
                 }

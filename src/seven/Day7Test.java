@@ -46,4 +46,10 @@ public class Day7Test {
         Day7 test = new Day7("123 -> x\nx LSHIFT 2 -> d");
         Assert.assertEquals(492, test.getVariable("d"));
     }
+
+    @Test
+    public void testArrowAssignsRightShift() {
+        Day7 test = new Day7("456 -> y\ny RSHIFT 2 -> d");
+        Assert.assertEquals(114, test.getVariable("d"));
+    }
 }

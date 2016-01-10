@@ -16,6 +16,6 @@ public class RunDay7Test {
     @Test
     public void getAdventVariable() {
         RunDay7 run = new RunDay7("src/seven/day7.txt");
-        Assert.assertEquals(956, run.getVariableFromInput("a"));
+        Assert.assertEquals(40149, run.getVariableFromInput("a"));
     }
 }

@@ -84,4 +84,25 @@ public class Day7Test {
         Assert.assertEquals(123, test.getVariable("x"));
         Assert.assertEquals(456, test.getVariable("y"));
     }
+
+    @Test
+    public void unorderedAdventTestCase() {
+        Day7 test = new Day7(
+                "123 -> x\n" +
+                "456 -> y\n" +
+                "h AND y -> d\n" +
+                "x OR y -> e\n" +
+                "x LSHIFT 2 -> f\n" +
+                "y RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i");
+        Assert.assertEquals(384, test.getVariable("d"));
+        Assert.assertEquals(507, test.getVariable("e"));
+        Assert.assertEquals(492, test.getVariable("f"));
+        Assert.assertEquals(114, test.getVariable("g"));
+        Assert.assertEquals(65412, test.getVariable("h"));
+        Assert.assertEquals(65079, test.getVariable("i"));
+        Assert.assertEquals(123, test.getVariable("x"));
+        Assert.assertEquals(456, test.getVariable("y"));
+    }
 }

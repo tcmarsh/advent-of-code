@@ -36,62 +36,79 @@ public class Day7 {
     public void initializeVariable(String key, Map<String, String> assignmentStatements) {
         if (!variables.containsKey(key)) {
             String statement = assignmentStatements.get(key);
+
+            int value = 0;
             if (StringUtility.isInteger(statement)) {
-                variables.put(key, Integer.parseInt(statement));
+                value = Integer.parseInt(statement);
             }
             else {
-                String[] parts = statement.split(" ");
-
-                int value = 0;
-                if (parts.length == 2) {
-                    initializeVariable(parts[1], assignmentStatements);
-                    value = ~variables.get(parts[1]) ^ (0xFFFF << 16);
-                }
-                else if (parts.length == 1) {
-                    initializeVariable(parts[0], assignmentStatements);
-                    value = variables.get(parts[0]);
-                }
-                else {
-                    int value1, value2;
-                    if (!StringUtility.isInteger(parts[0])) {
-                        initializeVariable(parts[0], assignmentStatements);
-                        value1 = variables.get(parts[0]);
-                    }
-                    else {
-                        value1 = Integer.parseInt(parts[0]);
-                    }
-                    if (!StringUtility.isInteger(parts[2])) {
-                        initializeVariable(parts[2], assignmentStatements);
-                        value2 = variables.get(parts[2]);
-                    }
-                    else {
-                        value2 = Integer.parseInt(parts[2]);
-                    }
-
-                    switch (parts[1]) {
-                        case "AND":
-                        case "and":
-                            value = value1 & value2;
-                            break;
-                        case "OR":
-                        case "or":
-                            value = value1 | value2;
-                            break;
-                        case "LSHIFT":
-                        case "lshift":
-                            value = value1 << value2;
-                            break;
-                        case "RSHIFT":
-                        case "rshift":
-                            value = value1 >> value2;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                variables.put(key, value);
+                value = parseStatementAndInitialize(statement, assignmentStatements);
             }
+
+            variables.put(key, value);
         }
+    }
+
+    private int parseStatementAndInitialize(String statement, Map<String, String> assignmentStatements) {
+        int value;
+        String[] parts = statement.split(" ");
+
+        if (parts.length == 2) {
+            initializeVariable(parts[1], assignmentStatements);
+            value = ~variables.get(parts[1]) ^ (0xFFFF << 16);
+        }
+        else if (parts.length == 1) {
+            initializeVariable(parts[0], assignmentStatements);
+            value = variables.get(parts[0]);
+        }
+        else {
+            int value1 = initializeVariableAndGetValue(parts[0], assignmentStatements);
+            int value2 = initializeVariableAndGetValue(parts[2], assignmentStatements);
+
+            value = executeLogic(parts[1], value1, value2);
+        }
+        return value;
+    }
+
+    private int executeLogic(String operator, int operand1, int operand2) {
+        int value = 0;
+
+        switch (operator) {
+            case "AND":
+            case "and":
+                value = operand1 & operand2;
+                break;
+            case "OR":
+            case "or":
+                value = operand1 | operand2;
+                break;
+            case "LSHIFT":
+            case "lshift":
+                value = operand1 << operand2;
+                break;
+            case "RSHIFT":
+            case "rshift":
+                value = operand1 >> operand2;
+                break;
+            default:
+                break;
+        }
+
+        return value;
+    }
+
+    private int initializeVariableAndGetValue(String statementPart, Map<String, String> assignmentStatements) {
+        int value1;
+
+        if (!StringUtility.isInteger(statementPart)) {
+            initializeVariable(statementPart, assignmentStatements);
+            value1 = variables.get(statementPart);
+        }
+        else {
+            value1 = Integer.parseInt(statementPart);
+        }
+
+        return value1;
     }
 
     public int getVariable(String variableName) {

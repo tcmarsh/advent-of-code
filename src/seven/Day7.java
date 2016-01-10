@@ -13,7 +13,7 @@ public class Day7 {
 
     public Day7(String assignments) {
         assignVariables(assignments.split("\n"));
-        assignAnd(assignments.split("\n"));
+        assignLogic(assignments.split("\n"));
     }
 
     public void assignVariables(String[] assignments) {
@@ -25,12 +25,25 @@ public class Day7 {
         }
     }
 
-    public void assignAnd(String[] assignments) {
+    public void assignLogic(String[] assignments) {
         for (String s: assignments) {
             String[] parts = s.split("->");
             if (!StringUtility.isInteger(parts[0].trim())) {
                 String[] names = parts[0].split(" ");
-                variables.put(parts[1].trim(), variables.get(names[0]) & variables.get(names[2]));
+                int combined = variables.get(names[0]);
+                switch(names[1]) {
+                    case "AND":
+                    case "and":
+                        combined &= variables.get(names[2]);
+                        break;
+                    case "OR":
+                    case "or":
+                        combined |= variables.get(names[2]);
+                        break;
+                    default:
+                        continue;
+                }
+                variables.put(parts[1].trim(), combined);
             }
         }
     }

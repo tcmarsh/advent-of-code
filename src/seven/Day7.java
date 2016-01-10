@@ -47,28 +47,43 @@ public class Day7 {
                     initializeVariable(parts[1], assignmentStatements);
                     value = ~variables.get(parts[1]) ^ (0xFFFF << 16);
                 }
-                else {
+                else if (parts.length == 1) {
                     initializeVariable(parts[0], assignmentStatements);
+                    value = variables.get(parts[0]);
+                }
+                else {
+                    int value1, value2;
+                    if (!StringUtility.isInteger(parts[0])) {
+                        initializeVariable(parts[0], assignmentStatements);
+                        value1 = variables.get(parts[0]);
+                    }
+                    else {
+                        value1 = Integer.parseInt(parts[0]);
+                    }
                     if (!StringUtility.isInteger(parts[2])) {
                         initializeVariable(parts[2], assignmentStatements);
+                        value2 = variables.get(parts[2]);
+                    }
+                    else {
+                        value2 = Integer.parseInt(parts[2]);
                     }
 
                     switch (parts[1]) {
                         case "AND":
                         case "and":
-                            value = variables.get(parts[0]) & variables.get(parts[2]);
+                            value = value1 & value2;
                             break;
                         case "OR":
                         case "or":
-                            value = variables.get(parts[0]) | variables.get(parts[2]);
+                            value = value1 | value2;
                             break;
                         case "LSHIFT":
                         case "lshift":
-                            value = variables.get(parts[0]) << Integer.parseInt(parts[2]);
+                            value = value1 << value2;
                             break;
                         case "RSHIFT":
                         case "rshift":
-                            value = variables.get(parts[0]) >> Integer.parseInt(parts[2]);
+                            value = value1 >> value2;
                             break;
                         default:
                             break;

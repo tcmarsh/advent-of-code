@@ -52,4 +52,15 @@ public class Day7Test {
         Day7 test = new Day7("456 -> y\ny RSHIFT 2 -> d");
         Assert.assertEquals(114, test.getVariable("d"));
     }
+
+    @Test
+    public void testArrowAssignsNot() {
+        Day7 test = new Day7(
+                "123 -> x\n" +
+                "456 -> y\n" +
+                "NOT x -> d\n" +
+                "NOT y -> e\n");
+        Assert.assertEquals(65412, test.getVariable("d"));
+        Assert.assertEquals(65079, test.getVariable("e"));
+    }
 }

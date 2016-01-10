@@ -40,6 +40,10 @@ public class Day7 {
                     case "or":
                         combined |= variables.get(names[2]);
                         break;
+                    case "LSHIFT":
+                    case "lshift":
+                        combined <<= Integer.parseInt(names[2]);
+                        break;
                     default:
                         continue;
                 }
